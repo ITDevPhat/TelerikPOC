@@ -9,7 +9,6 @@
     <PackageReference Include="AWSSDK.S3" Version="4.0.19.1" />
     <PackageReference Include="Dapper" Version="2.1.72" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0" />
-    <PackageReference Include="Telerik.Licensing" Version="1.7.0" />
     <PackageReference Include="Telerik.Reporting.OpenXmlRendering" Version="20.0.26.304" />
     <PackageReference Include="Telerik.Reporting.Services.AspNetCore" Version="20.0.26.304" />
     <PackageReference Include="Telerik.Reporting.WebServiceDataSource" Version="20.0.26.304" />
