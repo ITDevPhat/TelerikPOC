@@ -1,0 +1,9 @@
+D:\ITDevPhat\microservice\TelerikPOC\obj\Debug\net10.0\TelerikPOC.csproj.AssemblyReference.cache
+D:\ITDevPhat\microservice\TelerikPOC\obj\Debug\net10.0\rpswa.dswa.cache.json
+D:\ITDevPhat\microservice\TelerikPOC\obj\Debug\net10.0\TelerikPOC.GeneratedMSBuildEditorConfig.editorconfig
+D:\ITDevPhat\microservice\TelerikPOC\obj\Debug\net10.0\TelerikPOC.AssemblyInfoInputs.cache
+D:\ITDevPhat\microservice\TelerikPOC\obj\Debug\net10.0\TelerikPOC.AssemblyInfo.cs
+D:\ITDevPhat\microservice\TelerikPOC\obj\Debug\net10.0\TelerikPOC.csproj.CoreCompileInputs.cache
+D:\ITDevPhat\microservice\TelerikPOC\obj\Debug\net10.0\TelerikPOC.MvcApplicationPartsAssemblyInfo.cache
+D:\ITDevPhat\microservice\TelerikPOC\obj\Debug\net10.0\TelerikPOC.sourcelink.json
+D:\ITDevPhat\microservice\TelerikPOC\obj\Debug\net10.0\TelerikPOC.MvcApplicationPartsAssemblyInfo.cs

@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\ITDevPhat\\microservice\\TelerikPOC\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D405C5C9-6B3D-7726-21FB-8B18C029A322}|TelerikPOC.csproj|d:\\itdevphat\\microservice\\telerikpoc\\telerikpoc.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{D405C5C9-6B3D-7726-21FB-8B18C029A322}|TelerikPOC.csproj|solutionrelative:telerikpoc.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D405C5C9-6B3D-7726-21FB-8B18C029A322}|TelerikPOC.csproj|d:\\itdevphat\\microservice\\telerikpoc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D405C5C9-6B3D-7726-21FB-8B18C029A322}|TelerikPOC.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TelerikPOC",
+              "DocumentMoniker": "D:\\ITDevPhat\\microservice\\TelerikPOC\\TelerikPOC.csproj",
+              "RelativeDocumentMoniker": "TelerikPOC.csproj",
+              "ToolTip": "D:\\ITDevPhat\\microservice\\TelerikPOC\\TelerikPOC.csproj",
+              "RelativeToolTip": "TelerikPOC.csproj",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAiwBUAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-03-25T16:17:49.629Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\ITDevPhat\\microservice\\TelerikPOC\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\ITDevPhat\\microservice\\TelerikPOC\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFMBAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T16:00:57.99Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

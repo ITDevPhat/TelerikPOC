@@ -1,0 +1,583 @@
+[
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "GetResource",
+    "RelativePath": "api/Reports",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientID",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "instanceID",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "documentID",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "resourceID",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "RegisterClient",
+    "RelativePath": "api/Reports/clients",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "UnregisterClient",
+    "RelativePath": "api/Reports/clients/{clientID}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientID",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "CreateInstance",
+    "RelativePath": "api/Reports/clients/{clientID}/instances",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "reportSource",
+        "Type": "Telerik.Reporting.Services.AspNetCore.ClientReportSource",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "DeleteInstance",
+    "RelativePath": "api/Reports/clients/{clientID}/instances/{instanceID}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "instanceID",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "CreateAIThread",
+    "RelativePath": "api/Reports/clients/{clientID}/instances/{instanceID}/ai",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "instanceID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "reportSource",
+        "Type": "Telerik.Reporting.Services.AspNetCore.ClientReportSource",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "CreateDocument",
+    "RelativePath": "api/Reports/clients/{clientID}/instances/{instanceID}/documents",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "instanceID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "args",
+        "Type": "Telerik.Reporting.Services.AspNetCore.CreateDocumentArgs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "DeleteDocument",
+    "RelativePath": "api/Reports/clients/{clientID}/instances/{instanceID}/documents/{documentID}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "instanceID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "documentID",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "GetDocument",
+    "RelativePath": "api/Reports/clients/{clientID}/instances/{instanceID}/documents/{documentID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "instanceID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "documentID",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "ExecuteInteractiveAction",
+    "RelativePath": "api/Reports/clients/{clientID}/instances/{instanceID}/documents/{documentID}/actions/{actionID}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "instanceID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "documentID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "actionID",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "GetAIResponse",
+    "RelativePath": "api/Reports/clients/{clientID}/instances/{instanceID}/documents/{documentID}/ai/{threadID}/query",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "instanceID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "documentID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "threadID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "args",
+        "Type": "Telerik.Reporting.Services.Engine.AIQueryArgs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "GetDocumentInfo",
+    "RelativePath": "api/Reports/clients/{clientID}/instances/{instanceID}/documents/{documentID}/info",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "instanceID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "documentID",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "GetPage",
+    "RelativePath": "api/Reports/clients/{clientID}/instances/{instanceID}/documents/{documentID}/pages/{pageNumber}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "instanceID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "documentID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "GetResourceAsync",
+    "RelativePath": "api/Reports/clients/{clientID}/instances/{instanceID}/documents/{documentID}/resources/{resourceID}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "instanceID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "documentID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "resourceID",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "GetSearchResults",
+    "RelativePath": "api/Reports/clients/{clientID}/instances/{instanceID}/documents/{documentID}/search",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "instanceID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "documentID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "args",
+        "Type": "Telerik.Reporting.Services.AspNetCore.SearchArgs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "SendDocument",
+    "RelativePath": "api/Reports/clients/{clientID}/instances/{instanceID}/documents/{documentID}/send",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "instanceID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "documentID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "args",
+        "Type": "Telerik.Reporting.Services.AspNetCore.SendDocumentArgs",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "GetPageSettings",
+    "RelativePath": "api/Reports/clients/{clientID}/pageSettings",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "reportSource",
+        "Type": "Telerik.Reporting.Services.AspNetCore.ClientReportSource",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "GetParameters",
+    "RelativePath": "api/Reports/clients/{clientID}/parameters",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientID",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "reportSource",
+        "Type": "Telerik.Reporting.Services.AspNetCore.ClientReportSource",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "KeepClientAlive",
+    "RelativePath": "api/Reports/clients/keepAlive/{clientID}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clientID",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "GetClientsSessionTimeoutSeconds",
+    "RelativePath": "api/Reports/clients/sessionTimeout",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "GetConfiguration",
+    "RelativePath": "api/Reports/configuration",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "GetDocumentFormats",
+    "RelativePath": "api/Reports/formats",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "GetResource",
+    "RelativePath": "api/Reports/resources/{folder}/{resourceName}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "folder",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "resourceName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Telerik.Reporting.Services.AspNetCore.ReportsControllerBase",
+    "Method": "GetVersion",
+    "RelativePath": "api/Reports/version",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]

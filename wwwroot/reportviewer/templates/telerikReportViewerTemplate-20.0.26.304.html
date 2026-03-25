@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Telerik HTML5 Report Viewer Templates</title>
+
+    <!--Telerik served resources. For more information see: http://docs.telerik.com/reporting/html5-report-viewer-styling-and-appearance -->
+    <link href="{service}resources/font/fonticons-20.0.26.304.css/" rel="stylesheet" />
+    <link href="{service}resources/styles/telerikReportViewer-20.0.26.304.css/" rel="stylesheet" />
+
+</head>
+<body>
+    <template id="trv-parameter">
+        <div class="trv-parameter-container k-card">
+            <div class="trv-parameter-header k-card-header">
+                <div class="trv-parameter-title k-card-title"></div>
+            </div>
+            <div class="trv-parameter-error k-notification k-notification-error">
+                <span class="k-notification-status k-icon k-i-x-outline"></span>
+                <span class="trv-parameter-error-message k-notification-content"></span>
+            </div>
+            <div class="trv-parameter-value k-card-body"></div>
+        </div>
+    </template>
+
+    <template id="trv-parameter-editor-available-values-multiselect">
+        <div class="trv-parameter-editor-available-values-multiselect">
+            <div class="trv-list"></div>
+            <div class="trv-parameter-actions k-actions k-actions-end">
+                <button class="trv-select-all">parameterEditorSelectAll</button>
+                <button class="trv-select-none">parameterEditorSelectNone</button>
+            </div>
+        </div>
+    </template>
+
+    <template id="trv-parameter-editor-available-values-multiselect-combo">
+        <div class="trv-parameter-editor-available-values-multiselect">
+            <div class="trv-combo"></div>
+            <div class="trv-parameter-actions k-actions k-actions-end">
+                <button class="trv-select-all">parameterEditorSelectAll</button>
+                <button class="trv-select-none">parameterEditorSelectNone</button>
+            </div>
+        </div>
+    </template>
+
+    <template id="trv-parameter-editor-available-values">
+        <div class="trv-parameter-editor-available-values">
+            <div class="trv-list" id="trv-parameter-editor-singleselect-list"></div>
+            <div class="trv-parameter-actions k-actions k-actions-end">
+                <button class="trv-select-none">parameterEditorSelectNone</button>
+            </div>
+        </div>
+    </template>
+
+    <template id="trv-parameter-editor-available-values-combo">
+        <div class="trv-parameter-editor-available-values">
+            <div class="trv-combo" id="trv-parameter-editor-singleselect-combo"></div>
+            <div class="trv-parameter-actions k-actions k-actions-end">
+                <button class="trv-select-none">parameterEditorSelectNone</button>
+            </div>
+        </div>
+    </template>
+
+    <template id="trv-parameter-editor-datetime">
+        <input type="datetime" class="k-textbox k-input k-input-md k-rounded-md trv-parameter-editor-datetime" />
+    </template>
+
+    <template id="trv-parameter-editor-text">
+        <input type="text" class="k-textbox k-input k-input-md k-rounded-md trv-parameter-editor-text" />
+    </template>
+
+    <template id="trv-parameter-editor-number">
+        <input type="number" step="any" class="k-textbox k-input k-input-md k-rounded-md trv-parameter-editor-number" />
+    </template>
+
+    <template id="trv-parameter-editor-boolean">
+        <span class="k-checkbox-wrap"><input type="checkbox" class="k-checkbox trv-parameter-editor-boolean" /></span>
+    </template>
+
+    <template id="trv-parameter-editor-multivalue">
+        <div class="trv-parameter-editor-multivalue">
+            <textarea class="k-textarea k-input k-input-md k-rounded-md"></textarea>
+        </div>
+    </template>
+
+    <template id="trv-report-viewer">
+        <div class="trv-content-wrapper">
+            <div class="trv-nav trv-toolbar k-widget" data-role="telerik_ReportViewer_Toolbar" tabindex="-1">
+
+                <span data-role="buttonGroup">
+                    <button data-role="button"
+                        data-icon="undo" data-command="telerik_ReportViewer_historyBack"
+                        title="menuNavigateBackwardTitle" aria-label="ariaLabelMenuNavigateBackward">
+                    </button>
+                    <button data-role="button"
+                        data-icon="redo" data-command="telerik_ReportViewer_historyForward"
+                        title="menuNavigateForwardTitle" aria-label="ariaLabelMenuNavigateForward">
+                    </button>
+                </span>
+
+                <button data-role="button"
+                    data-icon="x" data-command="telerik_ReportViewer_stopRendering"
+                    title="menuStopRenderingTitle" aria-label="ariaLabelMenuStopRendering">
+                </button>
+                <button data-role="button"
+                    data-icon="arrow-rotate-cw" data-command="telerik_ReportViewer_refresh"
+                    title="menuRefreshTitle" aria-label="ariaLabelMenuRefresh">
+                </button>
+
+                <span data-role="separator" data-overflow="never"></span>
+
+                <span data-role="buttonGroup" data-overflow="never">
+                    <button data-role="button"
+                        data-icon="caret-alt-to-left" data-command="telerik_ReportViewer_goToFirstPage"
+                        title="menuFirstPageTitle" aria-label="ariaLabelMenuFirstPage">
+                    </button>
+                    <button data-role="button"
+                        data-icon="caret-alt-left" data-command="telerik_ReportViewer_goToPrevPage"
+                        title="menuPreviousPageTitle" aria-label="ariaLabelMenuPreviousPage">
+                    </button>
+                </span>
+
+                <span data-role="custom-element" class="trv-toolbar-page-selector" aria-label="ariaLabelMenuPageNumber" title="menuPageNumberTitle">
+                    <span class="trv-replace-string">menuPageText</span>&nbsp;
+                    <input data-role="telerik_ReportViewer_PageNumberInput" type="number" />&nbsp;
+                    <span class="trv-replace-string">menuPageOfText</span>&nbsp;
+                    <span data-role="telerik_ReportViewer_PageCountLabel"></span>
+                </span>
+
+                <span data-role="buttonGroup" data-overflow="never">
+                    <button data-role="button"
+                        data-icon="caret-alt-right" data-command="telerik_ReportViewer_goToNextPage"
+                        title="menuNextPageTitle" aria-label="ariaLabelMenuNextPage">
+                    </button>
+                    <button data-role="button"
+                        data-icon="caret-alt-to-right" data-command="telerik_ReportViewer_goToLastPage"
+                        title="menuLastPageTitle" aria-label="ariaLabelMenuLastPage">
+                    </button>
+                </span>
+
+                <span data-role="separator" data-overflow="never"></span>
+
+                <span data-role="buttonGroup">
+                    <button data-role="button"
+                        data-icon="zoom-in" data-command="telerik_ReportViewer_zoomIn"
+                        title="menuZoomInTitle" aria-label="ariaLabelMenuZoomIn">
+                    </button>
+                    <button data-role="button"
+                        data-icon="zoom-out" data-command="telerik_ReportViewer_zoomOut"
+                        title="menuZoomOutTitle" aria-label="ariaLabelMenuZoomOut">
+                    </button>
+                </span>
+
+                <button data-role="toggle-button"
+                    data-icon="toggle-full-screen-mode" data-command="telerik_ReportViewer_toggleZoomMode"
+                    title="menuPageStateTitle" aria-label="ariaLabelMenuPageState">
+                </button>
+
+                <button data-role="toggle-button"
+                    data-icon="file" data-command="telerik_ReportViewer_togglePrintPreview"
+                    title="menuPrintPreviewTitle" aria-label="ariaLabelMenuPrintPreview">
+                </button>
+
+                <span data-role="separator"></span>
+
+                <button data-role="button"
+                    data-icon="print" data-command="telerik_ReportViewer_print"
+                    title="menuPrintTitle" aria-label="ariaLabelMenuPrint">
+                </button>
+
+                <button data-role="toggle-button"
+                    data-icon="envelop" data-command="telerik_ReportViewer_toggleSendEmailDialog"
+                    title="menuSendMailTitle" aria-label="ariaLabelMenuSendMail">
+                </button>
+
+                <button data-role="menu-button" id="export-dropdown"
+                    data-icon="download" data-command="telerik_ReportViewer_export"
+                    title="menuExportTitle" aria-label="ariaLabelMenuExport">
+                </button>
+
+                <span data-role="separator"></span>
+
+                <span data-role="buttonGroup">
+                    <button data-role="toggle-button"
+                        data-icon="book" data-command="telerik_ReportViewer_toggleDocumentMap"
+                        title="menuDocumentMapTitle" aria-label="ariaLabelMenuDocumentMap">
+                    </button>
+                    <button data-role="toggle-button"
+                        data-icon="filter" data-command="telerik_ReportViewer_toggleParametersArea"
+                        title="menuParametersAreaTitle" aria-label="ariaLabelMenuParametersArea">
+                    </button>
+                </span>
+
+                <span data-role="separator"></span>
+
+                <button data-role="toggle-button"
+                    data-icon="search" data-command="telerik_ReportViewer_toggleSearchDialog"
+                    title="menuSearchTitle" aria-label="ariaLabelMenuSearch">
+                </button>
+
+                <button data-role="toggle-button"
+                    data-icon="sparkles" data-command="telerik_ReportViewer_toggleAiPromptDialog"
+                    title="menuAiPromptTitle" aria-label="ariaLabelMenuAiPrompt">
+                </button>
+            </div>
+
+            <div class="trv-content trv-parameters-splitter" role="form">
+
+                <div class="trv-content trv-document-map-splitter" role="form">
+                    <div data-id="trv-document-map" class="trv-document-map k-widget" data-role="telerik_ReportViewer_DocumentMapArea">
+                        <div tabindex="200" class="trv-document-map-overlay" role="navigation" aria-label="ariaLabelDocumentMap"></div>
+                    </div>
+
+                    <div data-id="trv-pages-area" class="trv-pages-area trv-pages-pane k-widget" tabindex="1000" data-role="telerik_ReportViewer_PagesArea" role="main" aria-label="ariaLabelPagesArea">
+                        <div class="trv-page-container">
+                            <div class="trv-page-wrapper active"></div>
+                        </div>
+                        <div class="k-notification k-hidden trv-notification">
+                            <div class="k-notification-wrap">
+                                <span class="k-icon k-i-warning"></span>
+                                <div class="k-notification-content trv-error-message"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-id="trv-parameters-area" class="trv-parameters-area k-widget" data-role="telerik_ReportViewer_ParametersArea">
+                    <div class="trv-parameters-area-content" role="complementary">
+                        <div tabindex="300" class="trv-parameters-wrapper"></div>
+                    </div>
+                    <div class="trv-parameters-area-footer">
+                        <button tabindex="399" aria-label="ariaLabelParametersAreaPreviewButton" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary trv-parameters-area-preview-button">parametersAreaPreviewButton</button>
+                    </div>
+                    <div class="trv-error-pane k-tooltip-validation k-widget">
+                        <div class="trv-error-message"></div>
+                    </div>
+                    <div class="trv-parameters-area-overlay"></div>
+                </div>
+            </div>
+
+            <div tabindex="400" class="trv-search-dialog k-hidden" data-role="telerik_ReportViewer_SearchDialog" aria-label="ariaLabelSearchDialogArea">
+                <div class="trv-search-dialog-input-area k-hstack k-gap-2" role="search">
+                    <div class="!k-flex">
+                        <input class="trv-search-dialog-input-box" />
+                    </div>
+                    <div class="!k-flex-none">
+                        <button data-role="button" data-fill-mode="flat"
+                            data-icon="x" data-command="telerik_ReportViewer_searchDialog_StopSearch"
+                            title="searchDialogStopTitle" aria-label="ariaLabelSearchDialogStop">
+                        </button>
+                    </div>
+                </div>
+                <div class="trv-search-dialog-search-options k-hstack" aria-label="ariaLabelSearchDialogOptions">
+                    <button data-role="toggle-button"
+                        data-icon="convert-lowercase" data-command="telerik_ReportViewer_searchDialog_MatchCase"
+                        title="searchDialogMatchCaseTitle" aria-label="ariaLabelSearchDialogMatchCase">
+                    </button>
+                    <button data-role="toggle-button"
+                        data-icon="whole-word" data-command="telerik_ReportViewer_searchDialog_MatchWholeWord"
+                        data-icon="convert-uppercase" data-command="telerik_ReportViewer_searchDialog_MatchWholeWord"
+                        title="searchDialogMatchWholeWordTitle" aria-label="ariaLabelSearchDialogMatchWholeWord">
+                    </button>
+                    <button data-role="toggle-button"
+                        data-icon="regular-expression" data-command="telerik_ReportViewer_searchDialog_UseRegex"
+                        title="searchDialogUseRegexTitle" aria-label="ariaLabelSearchDialogUseRegex">
+                    </button>
+                    <i data-role="telerik_ReportViewer_SearchDialog_Error" class="k-icon k-i-exclamation"></i>
+                </div>
+                <div class="trv-search-dialog-results k-hstack k-gap-2 k-align-items-center k-mt-4">
+                    <span class="trv-search-dialog-results-label"></span>
+                    <span class="k-spacer"></span>
+                    <div class="trv-search-dialog-navigational-buttons k-button-group">
+                        <button data-role="button" data-fill-mode="flat"
+                            data-icon="chevron-up" data-command="telerik_ReportViewer_searchDialog_NavigateUp"
+                            title="searchDialogNavigateUpTitle" aria-label="ariaLabelSearchDialogNavigateUp">
+                        </button>
+                        <button data-role="button" data-fill-mode="flat"
+                            data-icon="chevron-down" data-command="telerik_ReportViewer_searchDialog_NavigateDown"
+                            title="searchDialogNavigateDownTitle" aria-label="ariaLabelSearchDialogNavigateDown">
+                        </button>
+                    </div>
+                </div>
+                <div class="trv-search-dialog-results-area !k-flex" role="list">
+                </div>
+            </div>
+
+            <div tabindex="402" class="trv-ai k-hidden" data-role="telerik_ReportViewer_AiPromptDialog" aria-label="ariaLabelAiPromptDialogArea">
+                <div class="trv-ai-consent-dialog k-hidden">
+                    <div class="trv-ai-consent-content"></div>
+                    <div class="trv-ai-consent-actions k-actions k-actions-end">
+                        <button class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary trv-replace-string"
+                            data-command="telerik_ReportViewer_aiConsent_Accept"
+                            aria-label="aiPromptDialogConsentAccept"
+                            title="aiPromptDialogConsentAccept">aiPromptDialogConsentAccept</button>
+                        <button class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base trv-replace-string"
+                            data-command="telerik_ReportViewer_aiConsent_Cancel"
+                            aria-label="aiPromptDialogConsentReject"
+                            title="aiPromptDialogConsentReject">aiPromptDialogConsentReject</button>
+                    </div>
+                </div>
+                <div class="trv-ai-prompt-dialog k-hidden">
+                    <div id="trv-ai-prompt"></div>
+                </div>
+            </div>
+
+            <div tabindex="401" class="trv-send-email-dialog k-hidden" data-role="telerik_ReportViewer_SendEmail" aria-label="ariaLabelSendEmailDialogArea">
+                <div class="trv-send-email-fields k-form k-form-vertical k-form-md">
+
+                    <div class="trv-send-email-field k-form-field">
+                        <label for="from" class="k-form-label trv-replace-string">sendEmailFromLabel</label>
+                        <span class="k-form-field-wrap">
+                            <input type="email" name="from" required
+                                placeholder="from@example.com"
+                                aria-label="ariaLabelSendEmailFrom"
+                                data-required-msg="sendEmailValidationEmailRequired"
+                                data-email-msg="sendEmailValidationEmailFormat"
+                                data-single-email-msg="sendEmailValidationSingleEmail" />
+                        </span>
+                    </div>
+
+                    <div class="trv-send-email-field k-form-field">
+                        <label for="to" class="k-form-label trv-replace-string">sendEmailToLabel</label>
+                        <span class="k-form-field-wrap">
+                            <input type="email" name="to" required multiple
+                                placeholder="to@example.com"
+                                aria-label="ariaLabelSendEmailTo"
+                                data-required-msg="sendEmailValidationEmailRequired"
+                                data-email-msg="sendEmailValidationEmailFormat" />
+                        </span>
+                    </div>
+
+                    <div class="k-form-field trv-send-email-field">
+                        <label for="cc" class="k-form-label trv-replace-string">sendEmailCCLabel</label>
+                        <span class="k-form-field-wrap">
+                            <input type="email" name="cc" multiple
+                                placeholder="cc@example.com"
+                                aria-label="ariaLabelSendEmailCC"
+                                data-email-msg="sendEmailValidationEmailFormat" />
+                            <span class="k-form-error k-invalid-msg" data-for="cc"></span>
+                        </span>
+                    </div>
+
+                    <div class="trv-send-email-field k-form-field">
+                        <label for="subject" class="k-form-label trv-replace-string">sendEmailSubjectLabel</label>
+                        <span class="k-form-field-wrap">
+                            <input type="text" name="subject" required
+                                aria-label="ariaLabelSendEmailSubject" />
+                        </span>
+                    </div>
+
+                    <div class="trv-send-email-field k-form-field">
+                        <label for="format" class="k-form-label trv-replace-string">sendEmailFormatLabel</label>
+                        <span class="k-form-field-wrap">
+                            <input type="text" name="format" required
+                                aria-label="ariaLabelSendEmailFormat"
+                                data-required-msg="sendEmailValidationFormatRequired" />
+                        </span>
+                    </div>
+
+                    <div class="trv-send-email-field k-form-field">
+                        <div class="k-form-field-wrap">
+                            <textarea name="emailBody"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="trv-send-email-actions k-actions k-actions-end">
+                        <button class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-primary trv-replace-string"
+                            data-command="telerik_ReportViewer_sendEmail_Send"
+                            aria-label="ariaLabelSendEmailSend"
+                            title="ariaLabelSendEmailSend">sendEmailSendLabel</button>
+                        <button class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base trv-replace-string"
+                            data-command="telerik_ReportViewer_sendEmail_Cancel"
+                            aria-label="ariaLabelSendEmailCancel"
+                            title="ariaLabelSendEmailCancel">sendEmailCancelLabel</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="trv-pages-area-kendo-tooltip">
+        <div class="trv-pages-area-kendo-tooltip">
+            <div class="trv-pages-area-kendo-tooltip-title"></div>
+            <div class="trv-pages-area-kendo-tooltip-text"></div>
+        </div>
+    </template>
+
+</body>
+</html>
+<!-- DO NOT MODIFY OR DELETE THIS LINE! UPGRADE WIZARD CHECKSUM 396abb53fdde58d43d2e8a81d7538826 -->

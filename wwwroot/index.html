@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Telerik Viewer</title>
+
+    <!-- Kendo CSS -->
+    <link href="https://kendo.cdn.telerik.com/themes/13.0.0/default/default-main.css" rel="stylesheet" />
+
+    <!-- Telerik CSS -->
+    <link href="/reportviewer/styles/telerikReportViewer-20.0.26.304.min.css" rel="stylesheet" />
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        #viewer {
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="viewer"></div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <!-- ❌ KHÔNG cần kendo -->
+
+    <script src="/reportviewer/js/telerikReportViewer-20.0.26.304.min.js"></script>
+    <script src="/reportviewer/js/telerikReportViewer.stringResources-20.0.26.304.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#viewer").telerik_ReportViewer({
+                serviceUrl: "/api/reports",
+                reportSource: {
+                    report: "SampleReport.trdp"
+                }
+            });
+
+        }); 
+    </script>
+
+</body>
+</html>

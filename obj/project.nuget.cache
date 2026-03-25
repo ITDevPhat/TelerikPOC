@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "v+Y0MzrP/T4=",
+  "success": true,
+  "projectFilePath": "D:\\ITDevPhat\\microservice\\TelerikPOC\\TelerikPOC.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ntphat\\.nuget\\packages\\awssdk.core\\4.0.3.19\\awssdk.core.4.0.3.19.nupkg.sha512",
+    "C:\\Users\\ntphat\\.nuget\\packages\\awssdk.s3\\4.0.19.1\\awssdk.s3.4.0.19.1.nupkg.sha512"
+  ],
+  "logs": []
+}

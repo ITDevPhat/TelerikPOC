@@ -1,0 +1,1 @@
+[[{"Name":"Date","Type":"System.DateTime","Text":"Date","Multivalue":false,"AllowNull":false,"AllowBlank":true,"IsVisible":true,"AutoRefresh":true,"ChildParameters":null,"AvailableValues":null,"Value":{"_type":"DateTime","_content":"2026-03-25T00:00:00Z"},"ID":"Date"}]]
