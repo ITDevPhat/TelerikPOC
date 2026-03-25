@@ -68,7 +68,7 @@ public sealed class S3ReportSourceResolver : IReportSourceResolver
     public ReportSource Resolve(
         string report,
         OperationOrigin origin,
-        IDictionary<string, object> currentParameterValues)
+        System.Collections.Generic.IDictionary<string, object> currentParameterValues)
     {
         // IReportSourceResolver is synchronous — bridge to async via GetAwaiter
         return ResolveAsync(report, currentParameterValues)
@@ -82,7 +82,7 @@ public sealed class S3ReportSourceResolver : IReportSourceResolver
 
     private async Task<ReportSource> ResolveAsync(
         string reportId,
-        IDictionary<string, object> rawParams)
+        System.Collections.Generic.IDictionary<string, object> rawParams)
     {
         // Normalize parameters (handle nulls, object→object? coercion)
         var parameters = rawParams
