@@ -2,7 +2,6 @@
 
 using Amazon;
 using Amazon.S3;
-using DocumentFormat.OpenXml.VariantTypes;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Caching.Memory;
@@ -149,7 +148,7 @@ builder.Services.TryAddSingleton<IReportServiceConfiguration>(sp =>
     // This is SEPARATE from snapshot cache — do not confuse the two layers.
     IStorage telerikStorage = env.IsDevelopment()
         ? new LoggingStorage(
-            inner: new FileStorage(Path.Combine(env.ContentRootPath, "Cache")),
+            basePath: Path.Combine(env.ContentRootPath, "Cache"),
             logFolder: Path.Combine(env.ContentRootPath, "CacheLogs"))
         : new S3Storage(s3, bucket, "telerik/session-cache");
 
@@ -160,7 +159,6 @@ builder.Services.TryAddSingleton<IReportServiceConfiguration>(sp =>
 
     return new ReportServiceConfiguration
     {
-        ReportingEngineConfiguration = cfg,
         HostAppId = "ReportingPOC",
         Storage = telerikStorage,
         ReportSourceResolver = resolver,
@@ -200,7 +198,7 @@ public sealed class ScopedResolverAdapter : IReportSourceResolver
     public Telerik.Reporting.ReportSource Resolve(
         string report,
         OperationOrigin origin,
-        IDictionary<string, object> currentParameterValues)
+        System.Collections.Generic.IDictionary<string, object> currentParameterValues)
     {
         using var scope = _factory.CreateScope();
         var inner = scope.ServiceProvider.GetRequiredService<S3ReportSourceResolver>();

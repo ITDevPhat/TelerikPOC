@@ -1,36 +1,20 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-	<PropertyGroup Label="Globals">
-	</PropertyGroup>
-	<PropertyGroup>
-		<TargetFramework>net10.0</TargetFramework>
-	</PropertyGroup>
-	<ItemGroup Condition="'$(UseTelerik)' == 'true'">
-		
-		<PackageReference Include="Amazon.S3" Version="0.35.1" />
-		
-		<PackageReference Include="Dapper" Version="2.1.72" />
-		
-		<PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.3.9" />
-		
-		<PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0" />
-		
-		<PackageReference Include="Telerik.Reporting.OpenXmlRendering" Version="20.0.26.304" />
-		<PackageReference Include="Telerik.Reporting.Services.AspNetCore" Version="20.0.26.304" />
-		<PackageReference Include="Telerik.Reporting.WebServiceDataSource" Version="20.0.26.304" />
-		
-	</ItemGroup>
-	<ItemGroup>
-		<Reference Include="Telerik.Reporting">
-			<HintPath>lib\Telerik.Reporting.dll</HintPath>
-		</Reference>
-		<Reference Include="Telerik.Reporting.Services.AspNetCore">
-			<HintPath>lib\Telerik.Reporting.Services.AspNetCore.dll</HintPath>
-		</Reference>
-	</ItemGroup>
-	<ItemGroup>
-		<Folder Include="Reports\" />
-	</ItemGroup>
-	<ItemGroup>
-	  <PackageReference Include="AWSSDK.S3" Version="4.0.19.1" />
-	</ItemGroup>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.S3" Version="4.0.19.1" />
+    <PackageReference Include="Dapper" Version="2.1.72" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0" />
+    <PackageReference Include="Telerik.Reporting.OpenXmlRendering" Version="20.0.26.304" />
+    <PackageReference Include="Telerik.Reporting.Services.AspNetCore" Version="20.0.26.304" />
+    <PackageReference Include="Telerik.Reporting.WebServiceDataSource" Version="20.0.26.304" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Reports\" />
+  </ItemGroup>
 </Project>
