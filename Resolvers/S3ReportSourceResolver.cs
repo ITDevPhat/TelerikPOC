@@ -10,39 +10,12 @@ using TelerikPOC.Services;
 
 namespace TelerikPOC.Resolvers;
 
-/// <summary>
-/// Updated S3ReportSourceResolver — now the ORCHESTRATION HUB.
-///
-/// Full flow on Resolve():
-/// ┌────────────────────────────────────────────────────────────────┐
-/// │ 1.  Parse report ID  →  (name, version)                       │
-/// │ 2.  Lookup ReportDefinition from DB  →  get S3Key + EntityKeys│
-/// │ 3.  Compute ParametersHash  (SHA-256)                         │
-/// │ 4.  Check SnapshotService  →  if HIT: return SnapshotSource   │
-/// │ 5.  [CACHE MISS]                                              │
-/// │     a. Download .trdp from S3                                  │
-/// │     b. Deserialize → Report object (ReportPackager)           │
-/// │     c. IDataProvider.GetFlatDataAsync()  →  DataTable         │
-/// │     d. Override report.DataSource = DataTable                  │
-/// │     e. Return InstanceReportSource                             │
-/// │     f. Snapshot is saved AFTER render (see SnapshotPostProcess)│
-/// └────────────────────────────────────────────────────────────────┘
-///
-/// IMPORTANT: Step 4 returns a SnapshotReportSource (custom) that tells
-/// the caller to skip rendering and use pre-built bytes.
-/// When snapshot = null, step 5 returns InstanceReportSource normally;
-/// the CALLER (RenderService) is responsible for saving snapshot after render.
-///
-/// This class does NOT render — it only prepares the ReportSource.
-/// Rendering and snapshot-save happen in RenderService.
-/// </summary>
 public sealed class S3ReportSourceResolver : IReportSourceResolver
 {
-    private readonly IAmazonS3                   _s3;
-    private readonly string                      _bucketName;
+    private readonly IAmazonS3 _s3;
+    private readonly string _bucketName;
     private readonly IReportDefinitionRepository _definitionRepo;
-    private readonly IDataProvider               _dataProvider;
-    private readonly ISnapshotService            _snapshotService;
+    private readonly IDataProvider _dataProvider;
     private readonly ILogger<S3ReportSourceResolver> _logger;
 
     public S3ReportSourceResolver(
@@ -50,125 +23,83 @@ public sealed class S3ReportSourceResolver : IReportSourceResolver
         string bucketName,
         IReportDefinitionRepository definitionRepo,
         IDataProvider dataProvider,
-        ISnapshotService snapshotService,
         ILogger<S3ReportSourceResolver> logger)
     {
-        _s3              = s3              ?? throw new ArgumentNullException(nameof(s3));
-        _bucketName      = bucketName      ?? throw new ArgumentNullException(nameof(bucketName));
-        _definitionRepo  = definitionRepo  ?? throw new ArgumentNullException(nameof(definitionRepo));
-        _dataProvider    = dataProvider    ?? throw new ArgumentNullException(nameof(dataProvider));
-        _snapshotService = snapshotService ?? throw new ArgumentNullException(nameof(snapshotService));
-        _logger          = logger          ?? throw new ArgumentNullException(nameof(logger));
+        _s3 = s3 ?? throw new ArgumentNullException(nameof(s3));
+        _bucketName = string.IsNullOrWhiteSpace(bucketName)
+            ? throw new ArgumentException("Bucket name is required.", nameof(bucketName))
+            : bucketName;
+        _definitionRepo = definitionRepo ?? throw new ArgumentNullException(nameof(definitionRepo));
+        _dataProvider = dataProvider ?? throw new ArgumentNullException(nameof(dataProvider));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
-
-    // ─────────────────────────────────────────────────────────────────
-    // IReportSourceResolver.Resolve
-    // ─────────────────────────────────────────────────────────────────
 
     public ReportSource Resolve(
         string report,
         OperationOrigin origin,
-        System.Collections.Generic.IDictionary<string, object> currentParameterValues)
+        IDictionary<string, object> currentParameterValues)
     {
-        // IReportSourceResolver is synchronous — bridge to async via GetAwaiter
-        return ResolveAsync(report, currentParameterValues)
-               .GetAwaiter()
-               .GetResult();
-    }
+        if (string.IsNullOrWhiteSpace(report))
+            throw new ArgumentException("Report identifier is required.", nameof(report));
 
-    // ─────────────────────────────────────────────────────────────────
-    // Async core
-    // ─────────────────────────────────────────────────────────────────
+        return ResolveAsync(report, origin, currentParameterValues ?? new Dictionary<string, object>())
+            .GetAwaiter()
+            .GetResult();
+    }
 
     private async Task<ReportSource> ResolveAsync(
         string reportId,
-        System.Collections.Generic.IDictionary<string, object> rawParams)
+        OperationOrigin origin,
+        IDictionary<string, object> rawParams)
     {
-        // Normalize parameters (handle nulls, object→object? coercion)
-        var parameters = rawParams
-            .ToDictionary(kv => kv.Key, kv => (object?)kv.Value);
-
-        // ── 1. Parse report ID ───────────────────────────────────────
         var (tenantId, name, version) = ParseReportId(reportId);
-        _logger.LogInformation("[Resolver] Resolving report '{Name}' v='{Version}'", name, version ?? "latest");
 
-        // ── 2. Load definition from DB ───────────────────────────────
-        ReportDefinition? definition = string.IsNullOrEmpty(version)
+        var definition = string.IsNullOrWhiteSpace(version)
             ? await _definitionRepo.GetLatestAsync(name, tenantId)
-            : await _definitionRepo.GetAsync(name, version!);
+            : await _definitionRepo.GetAsync(name, version!, tenantId);
 
         if (definition == null)
             throw new InvalidOperationException(
-                $"Report definition not found: name='{name}' version='{version ?? "latest"}'");
+                $"Report definition not found: report='{reportId}' (tenant='{tenantId ?? "default"}').");
 
-        // Resolve version for snapshot key (use actual DB version, not "latest")
-        var resolvedVersion = definition.Version;
-
-        // ── 3. Compute hash ──────────────────────────────────────────
-        var hash = HashUtility.ComputeHash($"{name}:{resolvedVersion}", parameters);
-        _logger.LogDebug("[Resolver] Parameters hash: {Hash}", hash[..12] + "…");
-
-        // ── 4. Snapshot check ────────────────────────────────────────
-        // NOTE: Format for snapshot check is not yet known here (Telerik decides format
-        // at render time).  We attach the definition + hash as metadata so RenderService
-        // can do the snapshot lookup BEFORE calling Telerik's render pipeline.
-        //
-        // We use a ResolveContext object embedded in InstanceReportSource.Parameters
-        // so the downstream RenderService can read it.
-
-        // ── 5a. Download .trdp from S3 ───────────────────────────────
         var trdpBytes = await DownloadTrdpAsync(definition.S3Key);
+        var reportDocument = DeserializeReport(trdpBytes);
 
-        // ── 5b. Deserialize TRDP → Report object ─────────────────────
-        var telerikReport = DeserializeReport(trdpBytes);
-
-        // ── 5c. Override DataSource (CORE REQUIREMENT) ───────────────
-        // Do NOT use SqlDataSource inside TRDP.
-        // Telerik becomes a pure layout engine — data comes from us.
-        var dataTable = await _dataProvider.GetFlatDataAsync(
-            reportName:    name,
-            entityKeysJson: definition.EntityKeysJson,
-            parameters:    parameters);
-
-        telerikReport.DataSource = dataTable;
-
-        _logger.LogInformation(
-            "[Resolver] DataSource injected: {Rows} rows into report '{Name}'",
-            dataTable.Rows.Count, name);
-
-        // ── 5d. Build InstanceReportSource ───────────────────────────
-        var source = new InstanceReportSource
+        if (origin != OperationOrigin.ResolveReportParameters)
         {
-            ReportDocument = telerikReport
-        };
+            var parameters = rawParams.ToDictionary(k => k.Key, v => (object?)v.Value);
+            var dataTable = await _dataProvider.GetFlatDataAsync(
+                reportName: definition.Name,
+                entityKeysJson: definition.EntityKeysJson,
+                parameters: parameters);
 
-        // Pass original parameters to the report for any parameter-driven formatting
+            reportDocument.DataSource = dataTable;
+            _logger.LogInformation("Injected {Rows} rows into report '{Report}'.", dataTable.Rows.Count, definition.Name);
+        }
+        else
+        {
+            _logger.LogDebug("Skipping dataset injection for parameter resolution on '{Report}'.", definition.Name);
+        }
+
+        var source = new InstanceReportSource { ReportDocument = reportDocument };
+
         foreach (var kv in rawParams)
             source.Parameters.Add(kv.Key, kv.Value);
-
-        // Embed resolve context so RenderService can do snapshot save after render
-        source.Parameters.Add("__ResolveContext__", new ResolveContext
-        {
-            ReportName     = name,
-            Version        = resolvedVersion,
-            ParametersHash = hash,
-        });
 
         return source;
     }
 
-    // ─────────────────────────────────────────────────────────────────
-    // Helpers
-    // ─────────────────────────────────────────────────────────────────
-
     private async Task<byte[]> DownloadTrdpAsync(string s3Key)
     {
+        if (string.IsNullOrWhiteSpace(s3Key))
+            throw new InvalidOperationException("Report definition contains empty S3Key.");
+
         try
         {
-            var response = await _s3.GetObjectAsync(new GetObjectRequest
+            using var response = await _s3.GetObjectAsync(new GetObjectRequest
             {
                 BucketName = _bucketName,
-                Key        = s3Key
+                Key = s3Key
             });
 
             using var ms = new MemoryStream();
@@ -178,7 +109,7 @@ public sealed class S3ReportSourceResolver : IReportSourceResolver
         catch (AmazonS3Exception ex) when (ex.StatusCode == HttpStatusCode.NotFound)
         {
             throw new FileNotFoundException(
-                $"Report .trdp not found in S3. Key='{s3Key}' Bucket='{_bucketName}'");
+                $"TRDP not found in S3. Bucket='{_bucketName}', Key='{s3Key}'.", ex);
         }
     }
 
@@ -186,29 +117,28 @@ public sealed class S3ReportSourceResolver : IReportSourceResolver
     {
         try
         {
-            using var stream  = new MemoryStream(trdpBytes);
-            var packager      = new ReportPackager();
-            var reportDocument = packager.UnpackageDocument(stream);
+            using var stream = new MemoryStream(trdpBytes);
+            var packager = new ReportPackager();
+            var doc = packager.UnpackageDocument(stream);
 
-            return reportDocument as Report
-                   ?? throw new InvalidOperationException(
-                       $"Expected Report, got {reportDocument?.GetType().FullName}");
+            return doc as Report
+                   ?? throw new InvalidOperationException($"Unpackaged document is not Telerik.Reporting.Report: {doc?.GetType().FullName}");
         }
-        catch (Exception ex) when (ex is not (InvalidOperationException or FileNotFoundException))
+        catch (Exception ex) when (ex is not InvalidOperationException)
         {
-            throw new InvalidOperationException("Failed to deserialize .trdp file.", ex);
+            throw new InvalidOperationException("Failed to deserialize TRDP from S3 payload.", ex);
         }
     }
 
     private static (string? tenant, string name, string? version) ParseReportId(string reportId)
     {
-        string? tenant  = null;
+        string? tenant = null;
         string? version = null;
 
         var slashIdx = reportId.IndexOf('/');
         if (slashIdx >= 0)
         {
-            tenant   = reportId[..slashIdx].Trim();
+            tenant = reportId[..slashIdx].Trim();
             reportId = reportId[(slashIdx + 1)..];
         }
 
@@ -216,7 +146,7 @@ public sealed class S3ReportSourceResolver : IReportSourceResolver
         string name;
         if (colonIdx >= 0)
         {
-            name    = reportId[..colonIdx].Trim();
+            name = reportId[..colonIdx].Trim();
             version = reportId[(colonIdx + 1)..].Trim();
         }
         else
@@ -224,25 +154,13 @@ public sealed class S3ReportSourceResolver : IReportSourceResolver
             name = reportId.Trim();
         }
 
+        if (string.IsNullOrWhiteSpace(name))
+            throw new InvalidOperationException($"Invalid report identifier '{reportId}'.");
+
         return (
-            string.IsNullOrWhiteSpace(tenant)  ? null : tenant,
+            string.IsNullOrWhiteSpace(tenant) ? null : tenant,
             name,
             string.IsNullOrWhiteSpace(version) ? null : version
         );
     }
-}
-
-// ─────────────────────────────────────────────────────────────────
-// ResolveContext — passed as parameter to let RenderService snapshot
-// ─────────────────────────────────────────────────────────────────
-
-/// <summary>
-/// Metadata attached to the resolved ReportSource so that the
-/// downstream render pipeline can save/retrieve snapshots.
-/// </summary>
-public sealed class ResolveContext
-{
-    public string ReportName     { get; init; } = default!;
-    public string Version        { get; init; } = default!;
-    public string ParametersHash { get; init; } = default!;
 }

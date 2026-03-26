@@ -6,9 +6,9 @@ namespace TelerikPOC.Infrastructure;
 
 public interface IReportDefinitionRepository
 {
-    Task<ReportDefinition?> GetAsync(string name, string version);
+    Task<ReportDefinition?> GetAsync(string name, string version, string? tenantId = null);
     Task<ReportDefinition?> GetLatestAsync(string name, string? tenantId = null);
-    Task<ReportDefinition>  CreateAsync(ReportDefinition definition);
+    Task<ReportDefinition> CreateAsync(ReportDefinition definition);
     Task ArchiveAsync(Guid id);
 }
 
@@ -19,25 +19,7 @@ public sealed class ReportDefinitionRepository : IReportDefinitionRepository
     public ReportDefinitionRepository(IDbConnection db)
         => _db = db ?? throw new ArgumentNullException(nameof(db));
 
-    // ── Schema ────────────────────────────────────────────────────
-    //
-    // CREATE TABLE rpt.ReportDefinitions (
-    //   Id             UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-    //   Name           NVARCHAR(200)  NOT NULL,
-    //   Version        NVARCHAR(50)   NOT NULL,
-    //   S3Key          NVARCHAR(500)  NOT NULL,
-    //   TenantId       NVARCHAR(100)  NULL,
-    //   DisplayName    NVARCHAR(300)  NULL,
-    //   Description    NVARCHAR(1000) NULL,
-    //   EntityKeysJson NVARCHAR(MAX)  NOT NULL DEFAULT '[]',
-    //   CreatedAt      DATETIME2      NOT NULL DEFAULT GETUTCDATE(),
-    //   UpdatedAt      DATETIME2      NOT NULL DEFAULT GETUTCDATE(),
-    //   IsActive       BIT            NOT NULL DEFAULT 1,
-    //   CONSTRAINT UQ_ReportDef UNIQUE (Name, Version, TenantId)
-    // );
-    // ──────────────────────────────────────────────────────────────
-
-    public async Task<ReportDefinition?> GetAsync(string name, string version)
+    public async Task<ReportDefinition?> GetAsync(string name, string version, string? tenantId = null)
     {
         const string sql = """
             SELECT TOP 1 *
@@ -45,10 +27,12 @@ public sealed class ReportDefinitionRepository : IReportDefinitionRepository
             WHERE  Name     = @Name
               AND  Version  = @Version
               AND  IsActive = 1
+              AND  (@TenantId IS NULL OR TenantId = @TenantId)
+            ORDER  BY CreatedAt DESC
             """;
 
         return await _db.QueryFirstOrDefaultAsync<ReportDefinition>(sql,
-            new { Name = name, Version = version });
+            new { Name = name, Version = version, TenantId = tenantId });
     }
 
     public async Task<ReportDefinition?> GetLatestAsync(string name, string? tenantId = null)
@@ -59,7 +43,7 @@ public sealed class ReportDefinitionRepository : IReportDefinitionRepository
             WHERE  Name     = @Name
               AND  IsActive = 1
               AND  (@TenantId IS NULL OR TenantId = @TenantId)
-            ORDER  BY UpdatedAt DESC
+            ORDER  BY CreatedAt DESC
             """;
 
         return await _db.QueryFirstOrDefaultAsync<ReportDefinition>(sql,
@@ -68,10 +52,10 @@ public sealed class ReportDefinitionRepository : IReportDefinitionRepository
 
     public async Task<ReportDefinition> CreateAsync(ReportDefinition definition)
     {
-        definition.Id        = definition.Id == Guid.Empty ? Guid.NewGuid() : definition.Id;
+        definition.Id = definition.Id == Guid.Empty ? Guid.NewGuid() : definition.Id;
         definition.CreatedAt = DateTime.UtcNow;
         definition.UpdatedAt = DateTime.UtcNow;
-        definition.IsActive  = true;
+        definition.IsActive = true;
 
         const string sql = """
             INSERT INTO rpt.ReportDefinitions
