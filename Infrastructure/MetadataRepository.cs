@@ -108,7 +108,7 @@ public sealed class MetadataRepository : IMetadataRepository
             const string sql = """
                 SELECT RelationshipId, ParentEntityId, ParentFieldId,
                        ChildEntityId, ChildFieldId, JoinType, Cardinality,
-                       Direction, HopWeight, FilterPropagation, MaxJoinDepth,
+                       Direction, HopWeight, MaxJoinDepth,
                        IsRequired, IsActive
                 FROM   rpt.ReportingRelationships
                 WHERE  IsActive = 1
